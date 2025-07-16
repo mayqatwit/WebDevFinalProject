@@ -1,15 +1,11 @@
 aside {
-    width: 200px;
-    position: fixed;
-    top: 0px;
-    left: 0;
+    top: 3rem;
+    height: calc(100vh - 3rem);
+    position: sticky;
+    align-self: start;
     background-color: #4b7fe0;
     color: white;
-    padding: 20px;
-    height: 100%;
-    overflow-y: auto;
-    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.486);
-
+    grid-area: sidebar;
 }
 
 aside ul {
@@ -28,41 +24,48 @@ aside ul li:hover {
 }
 
 body {
-    margin: 0;
-    padding-top: 110px;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+    "header header"
+    "sidebar main"
+    "sidebar footer";
     font-family: Arial, Helvetica, sans-serif;
+
 }
 footer {
     color: black;
     text-align: center;
-    bottom: 0;
-    width: 100%;
+    grid-area: footer;
+    padding: 2em;
 }
 
-header {
-    background-color: #4b7fe0;
-    color: white;
-    padding: 10px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
 
-.item {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
+*{
+    margin: 0;
+    padding: 0;
 }
 
 main {
-    margin-left: 200px;
     padding: 20px;
+    grid-area: main;
+}
+
+nav{
+    height: 3rem;
+    top: 0;
+    position: sticky;
+    grid-area: header;
+    background-color: #4b7fe0;
+    color: white;
+    display: flex;
+}
+nav h2 {
+    margin: 0;
+    padding: 0.5rem;
+    flex-grow: 1;
 }
 
 section {
@@ -82,3 +85,36 @@ section {
     color: #FFFFFF;
 }
 
+#toggleButton {
+    display: none;
+}
+
+@media(max-width: 800px) {
+    aside {
+        position: fixed;
+        width: 300px;
+        display: none;  
+
+    }
+    body {
+        grid-template-columns: 1fr;
+    }
+    .show{
+        display: block;
+    }
+    #toggleButton {
+        font-size: 0.9rem;
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #4b7fe0;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    #toggleButton:hover {
+        background-color: #749ce6;
+    }
+}
