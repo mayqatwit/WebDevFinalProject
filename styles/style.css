@@ -53,6 +53,8 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.486);
     transition: background-color 0.3s ease;
     cursor: pointer;
+    height:150px;
+    width: 150px;
 }
 
 .cookbook:hover {
@@ -60,9 +62,17 @@ body {
     cursor: pointer;
 }
 
+.cookbookContainer {
+    margin: 50px;
+}
+
+
 .flex-container {
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 footer {
@@ -97,16 +107,12 @@ nav{
 nav h2 {
     margin: 0;
     padding: 0.5rem;
-    flex-grow: 1;
 }
 
 section {
     padding: 50px;
     border-radius: 20px;
     background-color: var(--section-bg-color);
-    margin: auto;
-    width: 75%;
-    margin-bottom: 50px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.486);
 }
 
@@ -120,16 +126,29 @@ section {
     display: none;
 }
 
-@media(max-width: 800px) {
+@media(max-width: 500px) {
     aside {
         position: fixed;
-        width: 300px;
+        width: 75%;
         display: none;  
 
     }
     body {
         grid-template-columns: 1fr;
     }
+    .cookbookContainer {
+        margin: 0px;
+        margin-bottom: 20px;
+    }
+    .cookbook{
+        width: 95px;
+
+    }
+    .flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .show{
         display: block;
     }

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <nav><H2>KitchenSync</H2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
+    <nav><h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
     <aside id="sidebar">
         <ul>
             <li><a class="sidebarItems" href="home.html">Home</a></li>
@@ -20,7 +20,7 @@
     </aside>
 
     <main>
-        <section id="userCookbooks">
+        <section class="cookbookContainer">
             <h2>Your Cookbooks</h2>
             <div class="flex-container">
                 <section class="cookbook" onclick="location.href='cookbook.html'">
@@ -35,10 +35,22 @@
                     <h3>Cookbook 3</h3>
                     <p>Example of cookbook spot</p>
                 </section>
+                <section class="cookbook" onclick="location.href='cookbook.html'">
+                    <h3>Cookbook 4</h3>
+                    <p>Example of cookbook spot</p>
+                </section>
+                <section class="cookbook" onclick="location.href='cookbook.html'">
+                    <h3>Cookbook 5</h3>
+                    <p>Example of cookbook spot</p>
+                </section>
+                <section class="cookbook" onclick="location.href='cookbook.html'">
+                    <h3>Add new Cookbook</h3>
+                    <h1>+</h1>
+                </section>
             </div>
         </section>
 
-        <section id="sharedCookbooks">
+        <section class="cookbookContainer">
             <h2>Shared With You</h2>
             <div class="flex-container">
                 <section class="cookbook" onclick="location.href='cookbook.html'">
