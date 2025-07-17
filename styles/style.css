@@ -16,7 +16,7 @@ aside {
     background-color: var(--header-bg-color);
     grid-area: sidebar;
     box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.486);
-
+    
 }
 
 aside ul {
@@ -129,9 +129,18 @@ section {
 @media(max-width: 500px) {
     aside {
         position: fixed;
+        top: 3rem;
+        left: 0;
         width: 75%;
-        display: none;  
-
+        height: calc(100vh - 3rem);
+        background-color: var(--header-bg-color);
+        box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.486);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+    }
+    aside.show {
+        transform: translateX(0);
     }
     body {
         grid-template-columns: 1fr;
