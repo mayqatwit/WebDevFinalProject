@@ -1,11 +1,11 @@
 :root {
-  --header-bg-color: #2a65d3;
-  --header-hover-color: #749ce6;
-  --header-text-color: white;
-  --body-bg-color: #ebf9ff;
-  --cookbook-bg-color: #ffffff;
-  --cookbook-hover-color: #e0e0e0;
-  --section-bg-color: #eaf2f8;
+    --header-bg-color: #2a65d3;
+    --header-hover-color: #749ce6;
+    --header-text-color: white;
+    --body-bg-color: #ebf9ff;
+    --cookbook-bg-color: #ffffff;
+    --cookbook-hover-color: #e0e0e0;
+    --section-bg-color: #eaf2f8;
 }
 
 aside {
@@ -16,7 +16,7 @@ aside {
     background-color: var(--header-bg-color);
     grid-area: sidebar;
     box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.486);
-    
+
 }
 
 aside ul {
@@ -41,9 +41,9 @@ body {
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-    "header header"
-    "sidebar main"
-    "sidebar footer";
+        "header header"
+        "sidebar main"
+        "sidebar footer";
     font-family: Arial, Helvetica, sans-serif;
 
 }
@@ -53,7 +53,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.486);
     transition: background-color 0.3s ease;
     cursor: pointer;
-    height:150px;
+    height: 150px;
     width: 150px;
 }
 
@@ -83,7 +83,7 @@ footer {
 }
 
 
-*{
+* {
     margin: 0;
     padding: 0;
 }
@@ -93,7 +93,7 @@ main {
     grid-area: main;
 }
 
-nav{
+nav {
     height: 3rem;
     top: 0;
     position: sticky;
@@ -104,6 +104,7 @@ nav{
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.486);
     z-index: 1000;
 }
+
 nav h2 {
     margin: 0;
     padding: 0.5rem;
@@ -139,28 +140,40 @@ section {
         transition: transform 0.3s ease;
         z-index: 999;
     }
+
     aside.show {
         transform: translateX(0);
     }
+
     body {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
     }
+
     .cookbookContainer {
-        margin: 0px;
+        margin: 20px;
         margin-bottom: 20px;
     }
-    .cookbook{
-        width: 95px;
+
+    .cookbook {
+        width: 50%;
+        height: 100px;
 
     }
+
     .flex-container {
+        margin-top: 20px;
         flex-direction: column;
         align-items: center;
     }
 
-    .show{
+    .show {
         display: block;
     }
+
     #toggleButton {
         font-size: 0.9rem;
         display: block;
@@ -173,6 +186,7 @@ section {
         padding: 10px;
         border-radius: 5px;
     }
+
     #toggleButton:hover {
         background-color: var(--header-hover-color);
     }
