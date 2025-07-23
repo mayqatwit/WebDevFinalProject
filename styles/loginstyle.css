@@ -8,30 +8,34 @@
     --cookbook-bg-color: #ffffff;
     --cookbook-hover-color: #e0e0e0;
     --section-bg-color: #eaf2f8;
+	--button-bg-color: #2a65d3;
+	--button-hover-color: #749ce6;
+	--header-gradient: linear-gradient(to right, #2a65d3, #749ce6);
 }
 * {
 	box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 body {
-	background: #f6f5f7;
+	background: var(--body-bg-color);
 	display: grid;
 	justify-content: center;
 	align-items: center;
-	font-family: 'Montserrat', sans-serif;
 	grid-template-columns: 1fr;
     grid-template-areas:
         "header"
         "main"
         "footer";
 	margin: 0;
-	height: 100vh;
 }
 main {
 	grid-area: main;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	height: 100vh;
 }
 nav {
     height: 3rem;
@@ -71,8 +75,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid var(--button-bg-color);
+	background-color: var(--button-bg-color);
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -97,7 +101,7 @@ button.ghost {
 
 button:hover {
     background-color: #FFFFFF;
-    color: #FF4B2B;
+    color: var(--button-bg-color);
     cursor: pointer;
 }
 
@@ -191,9 +195,8 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: var(--header-bg-color);
+	background: var(--header-gradient);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
