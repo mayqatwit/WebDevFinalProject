@@ -127,7 +127,7 @@ section {
     display: none;
 }
 
-@media(max-width: 500px) {
+@media(max-width: 800px) {
     aside {
         position: fixed;
         top: 3rem;
