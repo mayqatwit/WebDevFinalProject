@@ -11,16 +11,17 @@
 
 <body>
     <nav><h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
-    <aside id="sidebar">
-        <div class="flex-container">
-        <ul>
-            <a class="sidebarItems" href="home.html"><li>&#x2302; Home</li></a>
-            <a class="sidebarItems" href="about.html"><li>&#x1F464; About</li></a>
-            <a class="sidebarItems" href="#" onclick="toggleSearch()"><li>&#x1F50D; Search</li></a>
-            <a class="sidebarItems" id="logout" href="login.html"><li>&#x1F6AA; Logout</li></a>
-        </ul>
-    </div>
-    </aside>
+<aside id="sidebar">
+    <ul id="navLinks">
+        <a class="sidebarItems" href="home.html"><li>&#x2302; Home</li></a>
+        <a class="sidebarItems" href="about.html"><li>&#x1F464; About</li></a>
+        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>&#x1F50D; Search</li></a>
+    </ul>
+    <ul id="logoutContainer">
+        <a class="sidebarItems" id="logout" href="login.html"><li>&#x1F6AA; Logout</li></a>
+    </ul>
+</aside>
+
         
     <main>
         <input type="text" id="search" placeholder="Search for Cookbooks..." oninput="searchCookbooks()">
