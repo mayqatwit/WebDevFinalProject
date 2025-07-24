@@ -10,19 +10,36 @@
 </head>
 
 <body>
-    <nav><H2>KitchenSync</H2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
+    <nav>
+        <H2>KitchenSync</H2><button id="toggleButton" onclick="toggleSidebar()">≡</button>
+    </nav>
     <aside id="sidebar">
-        <ul>
-            <a class="sidebarItems" href="home.html"><li>Home</li></a>
-            <a class="sidebarItems" href="about.html"><li>About</li></a>
-            <a class="sidebarItems" id="logout" href="login.html"><li>Logout</li></a>
+        <ul id="navLinks">
+            <a class="sidebarItems" href="home.html">
+                <li>&#x2302; Home</li>
+            </a>
+            <a class="sidebarItems" href="about.html">
+                <li>&#x1F464; About</li>
+            </a>
+        </ul>
+        <ul id="logoutContainer">
+            <a class="sidebarItems" id="logout" href="login.html">
+                <li>&#x1F6AA; Logout</li>
+            </a>
         </ul>
     </aside>
 
     <main>
         <section style="margin: 50px">
             <h2>Our Mission</h2>
-            <p>KitchenSync aims to streamline your cooking experience by providing easy access to multimedia resources.</p>
+            <p>
+                KitchenSync aims to streamline your cooking experience by providing easy access to any of your family's
+                recipes.
+                We allow for cross platform sharing of recipes, so you can access your favorite meals from any device,
+                at any time.
+                Our goal is to make cooking a collaborative and enjoyable experience for everyone, whether you're a
+                seasoned chef or just starting out in the kitchen.
+            </p>
         </section>
 
         <section style="margin: 50px">
