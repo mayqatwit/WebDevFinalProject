@@ -1,8 +1,3 @@
-const sidebar = document.getElementById('sidebar');
-
-function toggleSidebar() {
-    sidebar.classList.toggle('show');
-}
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("show");
@@ -10,14 +5,18 @@ function toggleSidebar() {
 document.addEventListener("click", function (event) {
     const sidebar = document.getElementById("sidebar");
     const button = document.getElementById("toggleButton");
+    const searchToggle = document.getElementById("searchToggle");
 
-    if (!sidebar.contains(event.target) && !button.contains(event.target)) {
+    if ((!sidebar.contains(event.target) && !button.contains(event.target)) || searchToggle.contains(event.target)) {
         sidebar.classList.remove("show");
     }
 });
 function toggleSearch() {
-    const searchInput = document.getElementById("search");
-    searchInput.classList.toggle("show");
+    const searchInput = document.getElementById('search');
+    searchInput.classList.toggle('show');
+    if (searchInput.classList.contains('show')) {
+        searchInput.focus();
+    }
 }
 function searchCookbooks() {
     const input = document.getElementById("search").value.toLowerCase();

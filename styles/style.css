@@ -16,13 +16,23 @@ aside {
     background-color: var(--header-bg-color);
     grid-area: sidebar;
     box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.486);
-
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 aside ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
     width: 100%;
+}
+#navLinks {
+    flex-grow: 1;
+}
+
+#logoutContainer {
+    margin-top: auto; /* push logout to the bottom */
 }
 
 aside ul li {
@@ -74,6 +84,7 @@ body {
     align-items: flex-start;
     gap: 20px;
     flex-wrap: wrap;
+    height: 100%;
 }
 
 footer {
@@ -111,7 +122,8 @@ nav h2 {
 }
 
 #search {
-    width: 60%;
+    display: none;
+    width: 85%;
     padding: 0.5rem;
     border: solid 1px #ccc;
     border-radius: 5px;
@@ -122,7 +134,7 @@ nav h2 {
 }
 
 #search.show {
-    display: none;
+    display: block; 
 }
 
 section {
