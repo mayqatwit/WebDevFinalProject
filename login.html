@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Login - KitchenSync</title>
-    <link rel="stylesheet" href="styles/loginstyle.css" />
+    <link rel="stylesheet" href="styles/loginstyle.css"/>
     <script src="scripts/login.js" defer></script>
 </head>
 
@@ -22,6 +22,7 @@
                     <input type="username" placeholder="Username" />
                     <input type="password" placeholder="Password" />
                     <button>Sign Up</button>
+                    <button class="ghost mobile-switch" id="signInMobile">Already have an account? Sign In</button>
                 </form>
             </div>
             <div class="form-container sign-in-container">
@@ -30,7 +31,8 @@
                     <input type="username" placeholder="Username" />
                     <input type="password" placeholder="Password" />
                     <a href="#">Forgot your password?</a>
-                    <button>Sign In</button>
+                    <button><a href="home.html">Sign In</a></button>
+                    <button type="button" class="ghost mobile-switch" id="signUpMobile">Don't have an account? Sign Up</button>
                 </form>
             </div>
             <div class="overlay-container">
