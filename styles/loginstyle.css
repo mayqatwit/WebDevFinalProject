@@ -48,6 +48,10 @@ nav {
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.486);
     z-index: 1000;
 }
+nav h2 {
+    margin: 0;
+    padding: 0.5rem;
+}
 
 h1 {
 	font-weight: bold;
@@ -252,3 +256,68 @@ footer {
     padding: 2em;
 }
 
+@media (max-width: 768px) {
+    main {
+        height: auto;
+        padding: 2rem 1rem;
+    }
+
+    .container {
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: auto;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .form-container {
+        display: none;
+        opacity: 0;
+        transition: none;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .container.right-panel-active .sign-up-container {
+        display: block;
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .container:not(.right-panel-active) .sign-in-container {
+        display: block;
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .overlay-container {
+        display: none;
+    }
+
+    button {
+        width: 100%;
+		background-color: var(--button-bg-color);
+    }
+
+    footer {
+        padding: 1rem;
+    }
+	.mobile-switch {
+        display: block;
+        margin-top: 1rem;
+        background-color: transparent;
+        border: 1px solid var(--button-bg-color);
+        color: var(--button-bg-color);
+        font-weight: bold;
+    }
+
+    .mobile-switch:hover {
+        background-color: var(--button-bg-color);
+        color: white;
+    }
+}
