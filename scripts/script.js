@@ -14,6 +14,9 @@ document.addEventListener("click", function (event) {
 function toggleSearch() {
     const searchInput = document.getElementById('search');
     searchInput.classList.toggle('show');
+    if (searchInput.classList.contains('show')) {
+        searchInput.focus();
+    }
 }
 function searchCookbooks() {
     const input = document.getElementById("search").value.toLowerCase();
@@ -27,26 +30,4 @@ function searchCookbooks() {
             cookbook.style.display = "none";
         }
     });
-}
-async function loadCookbooks() {
-    const response = await fetch('http://localhost:3000/cookbooks');
-    const cookbooks = await response.json();
-
-    const container = document.querySelector(".cookbookContainer .flex-container");
-    container.innerHTML = "";
-
-    cookbooks.forEach(cookbook => {
-        const section = document.createElement("section");
-        section.className = "cookbook";
-        section.onclick = () => location.href = `cookbook.html?id=${cookbook._id}`;
-        section.innerHTML = `<h3>${cookbook.title}</h3><p>${cookbook.description}</p>`;
-        container.appendChild(section);
-    });
-
-    // Add button
-    const add = document.createElement("section");
-    add.className = "cookbook";
-    add.onclick = () => location.href = 'createCookbook.html';
-    add.innerHTML = `<h3>Add new Cookbook</h3><h1>+</h1>`;
-    container.appendChild(add);
 }
