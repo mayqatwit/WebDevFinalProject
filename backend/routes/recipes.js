@@ -24,12 +24,33 @@ router.get('/:bookId', async (req, res) => {
 
   try {
     const [rows] = await db.query(
-        `SELECT r. recipe_id, r.recipe_name, c.cookbook_name, u.username 
+        `SELECT r.recipe_id, r.recipe_name, c.cookbook_name, u.username 
         FROM Recipes r 
         JOIN Cookbooks c ON c.book_id = r.book_id 
         JOIN Users u ON u.user_id = r.contributor_id
         WHERE r.book_id = ?`,
       [bookId]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+//get ingredient list from a recipe
+router.get('/ingredients/:recipeId', async (req, res) => {
+  const recipeId = req.params.recipeId;
+
+  try {
+    const [rows] = await db.query(
+        `SELECT s.ingredient_name, s.ingredient_amount, s.ingredient_unit 
+        FROM Recipes r 
+        JOIN RecipeSteps s ON r.recipe_id = s.from_recipe
+        WHERE s.from_recipe = ?
+        ORDER BY s.step_num ASC`,
+      [recipeId]
     );
 
     res.json(rows);
