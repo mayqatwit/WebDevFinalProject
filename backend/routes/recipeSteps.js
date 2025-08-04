@@ -1,0 +1,53 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
+
+// Get all steps
+router.get('/', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT s.step_id, r.recipe_name, s.step_num, s.ingredient_name, s.ingredient_amount, s.ingredient_unit, s.step_desc FROM RecipeSteps s JOIN Recipes r ON r.recipe_id = s.from_recipe');
+    res.json(rows);
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+// Get steps for a specific recipe
+router.get('/:recipeId', async (req, res) => {
+  const recipeId = req.params.recipeId;
+
+  try {
+    const [rows] = await db.query(
+      `SELECT s.step_id, r.recipe_name, s.step_num, s.ingredient_name, 
+              s.ingredient_amount, s.ingredient_unit, s.step_desc 
+       FROM RecipeSteps s 
+       JOIN Recipes r ON r.recipe_id = s.from_recipe 
+       WHERE s.from_recipe = ? 
+       ORDER BY s.step_num ASC`,
+      [recipeId]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error('Database error:', err);
+    res.status(500).send('Internal server error');
+  }
+});
+
+// Add a step
+router.post('/', async (req, res) => {
+  const { step_num, from_recipe, ingredient_name, ingredient_amount, ingredient_unit, step_desc } = req.body;
+  try {
+    const [result] = await db.query(
+      'INSERT INTO RecipeSteps (step_num, from_recipe, ingredient_name, ingredient_amount, ingredient_unit, step_desc) VALUES (?, ?, ?, ?, ?, ?)',
+      [step_num, from_recipe, ingredient_name, ingredient_amount, ingredient_unit, step_desc]
+    );
+    res.status(201).json({ step_id: result.insertId });
+  } catch (err) {
+    console.error('Insert error:', err);
+    res.status(500).send('Could not add step');
+  }
+});
+
+module.exports = router;

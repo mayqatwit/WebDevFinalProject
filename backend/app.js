@@ -16,6 +16,9 @@ app.use('/api/cookbooks', cookbookRoutes);
 const recipeRoutes = require('./routes/recipes');
 app.use('/api/recipes', recipeRoutes);
 
+const stepRoutes = require('./routes/recipeSteps');
+app.use('/api/recipeSteps', stepRoutes);
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
