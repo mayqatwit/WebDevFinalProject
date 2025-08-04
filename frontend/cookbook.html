@@ -5,8 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KitchenSync</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-    <script src="../scripts/script.js" defer></script>
+    <link rel="stylesheet" href="styles/style.css" />
+    <script src="scripts/script.js" defer></script>
 </head>
 
 <body>
@@ -33,26 +33,41 @@
     </aside>
 
     <main>
+        <div class="cookbook-header">
+            <button onclick="location.href='home.html'" class="back-button">← Back to Cookbooks</button>
+            <h1 id="cookbookTitle">Cookbook</h1>
+        </div>
+        
         <ul id="recipeList">
-            <li class="recipeItem" onclick="location.href='./recipe.html'">
-                <section>
-                    <h3>Recipe 1</h3>
-                    <p>Delicious recipe description</p>
-                </section>
-            </li>
-            <li class="recipeItem" onclick="location.href='./recipe.html'">
-                <section>
-                    <h3>Recipe 2</h3>
-                    <p>Another tasty recipe</p>
-                </section>
-            </li>
-            <li class="recipeItem" onclick="location.href='./recipe.html'">
+            <!-- Recipes will be loaded here dynamically -->
+            <li class="recipeItem" onclick="showAddRecipeModal()">
                 <section>
                     <h3>Create a new Recipe</h3>
+                    <h1>+</h1>
                 </section>
             </li>
-
+        </ul>
     </main>
+
+    <!-- Add Recipe Modal -->
+    <div id="addRecipeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Recipe</h2>
+                <span class="close" onclick="hideAddRecipeModal()">&times;</span>
+            </div>
+            <form id="recipeForm" onsubmit="addRecipe(event)">
+                <div class="form-group">
+                    <label for="recipeName">Recipe Name:</label>
+                    <input type="text" id="recipeName" name="recipeName" required maxlength="50">
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="hideAddRecipeModal()">Cancel</button>
+                    <button type="submit">Add Recipe</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p>© 2025 KitchenSync</p>

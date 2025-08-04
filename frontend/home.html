@@ -5,33 +5,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home - KitchenSync</title>
-    <link rel="stylesheet" href="../styles/style.css" />
-    <script src="../scripts/script.js" defer></script>
+    <link rel="stylesheet" href="styles/style.css" />
+    <script src="scripts/script.js" defer></script>
 </head>
 
 <body>
-    <nav>
-        <h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button>
-    </nav>
+    <nav><h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
 <aside id="sidebar">
     <ul id="navLinks">
-        <a class="sidebarItems" href="./home.html"><li>Home</li></a>
-        <a class="sidebarItems" href="./about.html"><li>About</li></a>
-        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>Search</li></a>
+        <a class="sidebarItems" href="./home.html"><li>&#x2302; Home</li></a>
+        <a class="sidebarItems" href="./about.html"><li>&#x1F464; About</li></a>
+        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>&#x1F50D; Search</li></a>
     </ul>
     <ul id="logoutContainer">
-        <a class="sidebarItems" id="logout" href="#"><li>Logout</li></a>
+        <a class="sidebarItems" id="logout" href="./login.html"><li>&#x1F6AA; Logout</li></a>
     </ul>
 </aside>
 
+        
     <main>
         <input type="text" id="search" placeholder="Search for Cookbooks..." oninput="searchCookbooks()">
-
         <section class="cookbookContainer">
             <h2>Your Cookbooks</h2>
-            <div class="flex-container" id="userCookbooks">
-                <!-- User cookbooks will be populated here -->
-                <section class="cookbook add-cookbook" onclick="showCreateCookbookModal()">
+            <div class="flex-container">
+                <!-- Cookbooks will be loaded here dynamically -->
+                <section class="cookbook" onclick="showAddCookbookModal()">
                     <h3>Add new Cookbook</h3>
                     <h1>+</h1>
                 </section>
@@ -40,47 +38,32 @@
 
         <section class="cookbookContainer">
             <h2>Shared With You</h2>
-            <div class="flex-container" id="sharedCookbooks">
-                <!-- Shared cookbooks will be populated here -->
+            <div class="flex-container">
+                <!-- Shared cookbooks will be loaded here dynamically -->
             </div>
         </section>
+
     </main>
 
-    <div id="createCookbookModal" class="modal">
+    <!-- Add Cookbook Modal -->
+    <div id="addCookbookModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeCreateCookbookModal()">&times;</span>
-            <h2>Create New Cookbook</h2>
-            <form id="createCookbookForm">
-                <input type="text" id="cookbookName" placeholder="Cookbook Name" required>
-                <textarea id="cookbookDescription" placeholder="Description (optional)"></textarea>
-                <div class="modal-buttons">
-                    <button type="submit">Create Cookbook</button>
-                    <button type="button" onclick="closeCreateCookbookModal()">Cancel</button>
+            <div class="modal-header">
+                <h2>Add New Cookbook</h2>
+                <span class="close" onclick="hideAddCookbookModal()">&times;</span>
+            </div>
+            <form id="cookbookForm" onsubmit="addCookbook(event)">
+                <div class="form-group">
+                    <label for="cookbookName">Cookbook Name:</label>
+                    <input type="text" id="cookbookName" name="cookbookName" required maxlength="50">
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="editCookbookModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditCookbookModal()">&times;</span>
-            <h2>Edit Cookbook</h2>
-            <form id="editCookbookForm">
-                <input type="text" id="editCookbookName" placeholder="Cookbook Name" required>
-                <textarea id="editCookbookDescription" placeholder="Description (optional)"></textarea>
-                
-                <div id="cookbookSharingSection" class="form-section">
-                    <label>Share with another user:</label>
-                    <div class="sharing-input">
-                        <input type="text" id="shareUsername" placeholder="Enter username">
-                        <button type="button" onclick="shareCookbook()">Share</button>
-                    </div>
+                <div class="form-group">
+                    <label for="cookbookDescription">Description:</label>
+                    <textarea id="cookbookDescription" name="cookbookDescription" maxlength="150" rows="3"></textarea>
                 </div>
-                
-                <div class="modal-buttons">
-                    <button type="submit">Save Changes</button>
-                    <button type="button" onclick="closeEditCookbookModal()">Cancel</button>
-                    <button type="button" class="delete-btn" onclick="deleteCookbook()">Delete Cookbook</button>
+                <div class="form-actions">
+                    <button type="button" onclick="hideAddCookbookModal()">Cancel</button>
+                    <button type="submit">Add Cookbook</button>
                 </div>
             </form>
         </div>
