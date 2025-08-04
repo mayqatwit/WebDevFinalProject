@@ -8,22 +8,6 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Update these with your actual MySQL details
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'KitchenSync'
-});
-
-db.connect(err => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL!');
-});
-
 app.get('/data', (req, res) => {
   db.query('SELECT * FROM Cookbooks', (err, results) => {
     if (err) {
