@@ -10,15 +10,21 @@
 </head>
 
 <body>
-    <nav><h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
+    <nav>
+        <h2>KitchenSync</h2>
+        <div class="nav-user-info">
+            <span>Welcome, <span class="username-display"></span>!</span>
+        </div>
+        <button id="toggleButton" onclick="toggleSidebar()">≡</button>
+    </nav>
 <aside id="sidebar">
     <ul id="navLinks">
-        <a class="sidebarItems" href="./home.html"><li>&#x2302; Home</li></a>
-        <a class="sidebarItems" href="./about.html"><li>&#x1F464; About</li></a>
-        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>&#x1F50D; Search</li></a>
+        <a class="sidebarItems" href="./home.html"><li>Home</li></a>
+        <a class="sidebarItems" href="./about.html"><li>About</li></a>
+        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>Search</li></a>
     </ul>
     <ul id="logoutContainer">
-        <a class="sidebarItems" id="logout" href="./login.html"><li>&#x1F6AA; Logout</li></a>
+        <a class="sidebarItems" id="logout" href="./login.html"><li>Logout</li></a>
     </ul>
 </aside>
 
