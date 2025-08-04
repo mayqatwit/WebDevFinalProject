@@ -10,45 +10,28 @@
 </head>
 
 <body>
-    <nav><h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button></nav>
+    <nav>
+        <h2>KitchenSync</h2><button id="toggleButton" onclick="toggleSidebar()">≡</button>
+    </nav>
 <aside id="sidebar">
     <ul id="navLinks">
-        <a class="sidebarItems" href="./home.html"><li>&#x2302; Home</li></a>
-        <a class="sidebarItems" href="./about.html"><li>&#x1F464; About</li></a>
-        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>&#x1F50D; Search</li></a>
+        <a class="sidebarItems" href="./home.html"><li>Home</li></a>
+        <a class="sidebarItems" href="./about.html"><li>About</li></a>
+        <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>Search</li></a>
     </ul>
     <ul id="logoutContainer">
-        <a class="sidebarItems" id="logout" href="./login.html"><li>&#x1F6AA; Logout</li></a>
+        <a class="sidebarItems" id="logout" href="#"><li>Logout</li></a>
     </ul>
 </aside>
 
-        
     <main>
         <input type="text" id="search" placeholder="Search for Cookbooks..." oninput="searchCookbooks()">
+
         <section class="cookbookContainer">
             <h2>Your Cookbooks</h2>
-            <div class="flex-container">
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Cookbook 1</h3>
-                    <p>Example of cookbook spot</p>
-                </section>
-               <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Cookbook 2</h3>
-                    <p>Example of cookbook spot</p>
-                </section>
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Cookbook 3</h3>
-                    <p>Example of cookbook spot</p>
-                </section>
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Cookbook 4</h3>
-                    <p>Example of cookbook spot</p>
-                </section>
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Cookbook 5</h3>
-                    <p>Example of cookbook spot</p>
-                </section>
-                <section class="cookbook" onclick="location.href='cookbook.html'">
+            <div class="flex-container" id="userCookbooks">
+                <!-- User cookbooks will be populated here -->
+                <section class="cookbook add-cookbook" onclick="showCreateCookbookModal()">
                     <h3>Add new Cookbook</h3>
                     <h1>+</h1>
                 </section>
@@ -57,23 +40,51 @@
 
         <section class="cookbookContainer">
             <h2>Shared With You</h2>
-            <div class="flex-container">
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Shared Cookbook 1</h3>
-                    <p>Example of shared cookbook spot</p>
-                </section>
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Shared Cookbook 2</h3>
-                    <p>Example of shared cookbook spot</p>
-                </section>
-                <section class="cookbook" onclick="location.href='cookbook.html'">
-                    <h3>Shared Cookbook 3</h3>
-                    <p>Example of shared cookbook spot</p>
-                </section>
+            <div class="flex-container" id="sharedCookbooks">
+                <!-- Shared cookbooks will be populated here -->
             </div>
         </section>
-
     </main>
+
+    <div id="createCookbookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCreateCookbookModal()">&times;</span>
+            <h2>Create New Cookbook</h2>
+            <form id="createCookbookForm">
+                <input type="text" id="cookbookName" placeholder="Cookbook Name" required>
+                <textarea id="cookbookDescription" placeholder="Description (optional)"></textarea>
+                <div class="modal-buttons">
+                    <button type="submit">Create Cookbook</button>
+                    <button type="button" onclick="closeCreateCookbookModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editCookbookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditCookbookModal()">&times;</span>
+            <h2>Edit Cookbook</h2>
+            <form id="editCookbookForm">
+                <input type="text" id="editCookbookName" placeholder="Cookbook Name" required>
+                <textarea id="editCookbookDescription" placeholder="Description (optional)"></textarea>
+                
+                <div id="cookbookSharingSection" class="form-section">
+                    <label>Share with another user:</label>
+                    <div class="sharing-input">
+                        <input type="text" id="shareUsername" placeholder="Enter username">
+                        <button type="button" onclick="shareCookbook()">Share</button>
+                    </div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onclick="closeEditCookbookModal()">Cancel</button>
+                    <button type="button" class="delete-btn" onclick="deleteCookbook()">Delete Cookbook</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p>© 2025 KitchenSync</p>

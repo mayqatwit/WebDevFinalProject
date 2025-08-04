@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     const [rows] = await db.query(
         `SELECT c.book_id, c.cookbook_name AS Book_Name, c.cookbook_desc AS Description, u.username AS Owner 
         FROM Cookbooks c 
-        JOIN Users u ON u.user_id = c.owner_id'`
+        JOIN Users u ON u.user_id = c.owner_id`
     );
     res.json(rows);
   } catch (err) {
