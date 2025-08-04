@@ -32,6 +32,7 @@ ul {
     margin: 0;
     width: 100%;
 }
+
 #navLinks {
     flex-grow: 1;
 }
@@ -202,7 +203,7 @@ nav h2 {
 }
 
 #search.show {
-    display: block; 
+    display: block;
 }
 
 section {
@@ -271,7 +272,6 @@ section {
     display: none;
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -393,14 +393,120 @@ section {
     background-color: var(--button-secondary-hover);
 }
 
+.recipe-step {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.step-number {
+    font-weight: bold;
+    color: var(--header-bg-color);
+    font-size: 1.1rem;
+}
+
+.remove-step {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.ingredient-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.ingredient-section input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.step-description {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    resize: vertical;
+}
+
+.add-step-btn {
+    background-color: var(--button-primary);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.recipe-content {
+    padding: 20px;
+}
+
+.recipe-info {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.recipe-step-display {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-left: 4px solid var(--header-bg-color);
+    background-color: #f8f9fa;
+}
+
+.recipe-step-display h4 {
+    color: var(--header-bg-color);
+    margin-bottom: 10px;
+}
+
+.ingredient-info {
+    background-color: #e9ecef;
+    padding: 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideIn {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 @media(max-width: 800px) {
@@ -493,5 +599,10 @@ section {
 
     .form-actions button {
         width: 100%;
+    }
+
+    .ingredient-section {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
 }
