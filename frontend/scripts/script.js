@@ -1,7 +1,12 @@
 const API_BASE = 'http://localhost:3000/api';
 
-// Mock current user for testing
-let currentUser = { user_id: 1, username: 'testuser' };
+// Get current user from localStorage
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+// Redirect to login if no user is logged in
+if (!currentUser && !window.location.pathname.includes('login.html')) {
+    window.location.href = './login.html';
+}
 
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -40,8 +45,22 @@ function searchCookbooks() {
     });
 }
 
-// Load cookbooks when page loads
+// Handle logout
+function logout() {
+    localStorage.removeItem('currentUser');
+    window.location.href = './login.html';
+}
+
+// Add logout functionality to logout button
 document.addEventListener('DOMContentLoaded', function() {
+    const logoutButton = document.getElementById('logout');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+    }
+
     if (window.location.pathname.includes('home.html')) {
         loadCookbooks();
     } else if (window.location.pathname.includes('cookbook.html')) {
@@ -51,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Load cookbooks from database
 async function loadCookbooks() {
+    if (!currentUser) return;
+    
     try {
         // Load owned cookbooks
         const ownedResponse = await fetch(`${API_BASE}/cookbooks/owner/${currentUser.user_id}`);
@@ -128,6 +149,8 @@ function hideAddCookbookModal() {
 // Add new cookbook
 async function addCookbook(event) {
     event.preventDefault();
+    
+    if (!currentUser) return;
     
     const name = document.getElementById('cookbookName').value;
     const description = document.getElementById('cookbookDescription').value;
@@ -234,6 +257,8 @@ function hideAddRecipeModal() {
 // Add new recipe
 async function addRecipe(event) {
     event.preventDefault();
+    
+    if (!currentUser) return;
     
     const cookbookId = localStorage.getItem('currentCookbookId');
     const recipeName = document.getElementById('recipeName').value;

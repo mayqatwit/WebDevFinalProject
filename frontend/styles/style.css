@@ -168,13 +168,25 @@ nav {
     background-color: var(--header-bg-color);
     color: var(--header-text-color);
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.486);
     z-index: 1000;
+    padding: 0 1rem;
 }
 
 nav h2 {
     margin: 0;
     padding: 0.5rem;
+}
+
+.nav-user-info {
+    font-size: 0.9rem;
+    color: var(--header-text-color);
+}
+
+.nav-user-info .username-display {
+    font-weight: bold;
 }
 
 #search {

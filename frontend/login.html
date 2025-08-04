@@ -16,22 +16,22 @@
     <main>
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="#">
+                <form>
                     <h1>Create Account</h1>
-                    <input type="text" placeholder="Name" />
-                    <input type="username" placeholder="Username" />
-                    <input type="password" placeholder="Password" />
-                    <button>Sign Up</button>
-                    <button class="ghost mobile-switch" id="signInMobile">Already have an account? Sign In</button>
+                    <input type="text" placeholder="Email" required />
+                    <input type="text" placeholder="Username" required />
+                    <input type="password" placeholder="Password" required />
+                    <button type="submit">Sign Up</button>
+                    <button type="button" class="ghost mobile-switch" id="signInMobile">Already have an account? Sign In</button>
                 </form>
             </div>
             <div class="form-container sign-in-container">
-                <form action="#">
+                <form>
                     <h1>Sign in</h1>
-                    <input type="username" placeholder="Username" />
-                    <input type="password" placeholder="Password" />
+                    <input type="text" placeholder="Username" required />
+                    <input type="password" placeholder="Password" required />
                     <a href="#">Forgot your password?</a>
-                    <button><a href="./home.html">Sign In</a></button>
+                    <button type="submit">Sign In</button>
                     <button type="button" class="ghost mobile-switch" id="signUpMobile">Don't have an account? Sign Up</button>
                 </form>
             </div>
@@ -56,3 +56,4 @@
     </footer>
 
 </body>
+</html>
