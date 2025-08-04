@@ -1,6 +1,6 @@
-# KitchenSync - Recipe Management Application
+# KitchenSync - Sharable Cookbook Service
 
-KitchenSync is a web-based recipe management application that allows users to create cookbooks, share them with others, and manage recipes collaboratively.
+KitchenSync is a web-based sharable cookbook application that allows users to create cookbooks, share them with others, and manage recipes collaboratively.
 
 ## Prerequisites
 
