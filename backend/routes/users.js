@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
   try {
     const [result] = await db.query(
       'INSERT INTO Users (username, email, passwd) VALUES (?, ?, ?)',
-      [username, email, passwd] // Remember to hash in production
+      [username, email, passwd]
     );
     res.status(201).json({ user_id: result.insertId });
   } catch (err) {
