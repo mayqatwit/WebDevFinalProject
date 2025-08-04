@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         `SELECT r. recipe_id, r.recipe_name, c.cookbook_name, u.username 
         FROM Recipes r 
         JOIN Cookbooks c ON c.book_id = r.book_id 
-        JOIN Users u ON u.user_id = r.contributor_id'`
+        JOIN Users u ON u.user_id = r.contributor_id`
     );
     res.json(rows);
   } catch (err) {
@@ -20,14 +20,14 @@ router.get('/', async (req, res) => {
 
 // Get recipes for a specific cookbook
 router.get('/:bookId', async (req, res) => {
-  const recipeId = req.params.bookId;
+  const bookId = req.params.bookId;
 
   try {
     const [rows] = await db.query(
         `SELECT r. recipe_id, r.recipe_name, c.cookbook_name, u.username 
         FROM Recipes r 
         JOIN Cookbooks c ON c.book_id = r.book_id 
-        JOIN Users u ON u.user_id = r.contributor_id'
+        JOIN Users u ON u.user_id = r.contributor_id
         WHERE r.book_id = ?`,
       [bookId]
     );
@@ -36,6 +36,28 @@ router.get('/:bookId', async (req, res) => {
   } catch (err) {
     console.error('Database error:', err);
     res.status(500).send('Internal server error');
+  }
+});
+
+//get image file from database
+router.get('/:id/image', async (req, res) => {
+  const recipeId = req.params.id;
+
+  try {
+    const [rows] = await db.query(
+      'SELECT image FROM Recipes WHERE recipe_id = ?',
+      [recipeId]
+    );
+
+    if (rows.length === 0 || !rows[0].image) {
+      return res.status(404).send('Image not found');
+    }
+
+    res.set('Content-Type', 'image/jpeg'); // or 'image/png' depending on what was uploaded
+    res.send(rows[0].image);
+  } catch (err) {
+    console.error('Image fetch error:', err);
+    res.status(500).send('Failed to fetch image');
   }
 });
 
