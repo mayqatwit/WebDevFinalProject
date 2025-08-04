@@ -61,12 +61,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Display username
+    const usernameDisplay = document.querySelector('.username-display');
+    if (usernameDisplay && currentUser) {
+        usernameDisplay.textContent = currentUser.username;
+    }
+
     if (window.location.pathname.includes('home.html')) {
         loadCookbooks();
     } else if (window.location.pathname.includes('cookbook.html')) {
         loadRecipes();
+        updateCookbookTitle();
     }
 });
+
+function updateCookbookTitle() {
+    const cookbookName = localStorage.getItem('currentCookbookName');
+    const titleElement = document.getElementById('cookbookTitle');
+    if (titleElement && cookbookName) {
+        titleElement.textContent = cookbookName;
+    }
+}
 
 // Load cookbooks from database
 async function loadCookbooks() {
@@ -226,10 +241,7 @@ function displayRecipes(recipes) {
 function createRecipeElement(recipe) {
     const li = document.createElement('li');
     li.className = 'recipeItem';
-    li.onclick = () => {
-        localStorage.setItem('currentRecipeId', recipe.recipe_id);
-        location.href = 'recipe.html';
-    };
+    li.onclick = () => viewRecipe(recipe.recipe_id);
     
     li.innerHTML = `
         <section>
@@ -252,9 +264,75 @@ function hideAddRecipeModal() {
     const modal = document.getElementById('addRecipeModal');
     modal.style.display = 'none';
     document.getElementById('recipeForm').reset();
+    
+    // Reset steps to just one
+    const stepsContainer = document.getElementById('recipeSteps');
+    stepsContainer.innerHTML = `
+        <div class="recipe-step">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <button type="button" class="remove-step" onclick="removeStep(this)" style="display: none;">×</button>
+            </div>
+            <div class="ingredient-section">
+                <input type="text" placeholder="Ingredient name" class="ingredient-name">
+                <input type="number" placeholder="Amount" class="ingredient-amount" step="0.01" min="0">
+                <input type="text" placeholder="Unit" class="ingredient-unit" maxlength="6">
+            </div>
+            <textarea placeholder="Step description" class="step-description" rows="3"></textarea>
+        </div>
+    `;
 }
 
-// Add new recipe
+// Add a new step to the recipe form
+function addStep() {
+    const stepsContainer = document.getElementById('recipeSteps');
+    const stepCount = stepsContainer.children.length + 1;
+    
+    const stepDiv = document.createElement('div');
+    stepDiv.className = 'recipe-step';
+    stepDiv.innerHTML = `
+        <div class="step-header">
+            <span class="step-number">${stepCount}</span>
+            <button type="button" class="remove-step" onclick="removeStep(this)">×</button>
+        </div>
+        <div class="ingredient-section">
+            <input type="text" placeholder="Ingredient name" class="ingredient-name">
+            <input type="number" placeholder="Amount" class="ingredient-amount" step="0.01" min="0">
+            <input type="text" placeholder="Unit" class="ingredient-unit" maxlength="6">
+        </div>
+        <textarea placeholder="Step description" class="step-description" rows="3"></textarea>
+    `;
+    
+    stepsContainer.appendChild(stepDiv);
+    updateRemoveButtons();
+}
+
+// Remove a step from the recipe form
+function removeStep(button) {
+    const stepDiv = button.closest('.recipe-step');
+    stepDiv.remove();
+    updateStepNumbers();
+    updateRemoveButtons();
+}
+
+// Update step numbers after adding/removing steps
+function updateStepNumbers() {
+    const steps = document.querySelectorAll('.recipe-step');
+    steps.forEach((step, index) => {
+        const stepNumber = step.querySelector('.step-number');
+        stepNumber.textContent = index + 1;
+    });
+}
+
+// Update visibility of remove buttons
+function updateRemoveButtons() {
+    const removeButtons = document.querySelectorAll('.remove-step');
+    removeButtons.forEach(button => {
+        button.style.display = removeButtons.length > 1 ? 'block' : 'none';
+    });
+}
+
+// Add new recipe with steps
 async function addRecipe(event) {
     event.preventDefault();
     
@@ -264,7 +342,8 @@ async function addRecipe(event) {
     const recipeName = document.getElementById('recipeName').value;
     
     try {
-        const response = await fetch(`${API_BASE}/recipes`, {
+        // First, create the recipe
+        const recipeResponse = await fetch(`${API_BASE}/recipes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -273,31 +352,115 @@ async function addRecipe(event) {
                 book_id: cookbookId,
                 contributor_id: currentUser.user_id,
                 recipe_name: recipeName,
-                image: null // We'll implement image upload later
+                image: null
             })
         });
         
-        if (response.ok) {
-            hideAddRecipeModal();
-            loadRecipes(); // Reload recipes
-        } else {
-            alert('Error adding recipe');
+        if (!recipeResponse.ok) {
+            throw new Error('Failed to create recipe');
         }
+        
+        const recipeData = await recipeResponse.json();
+        const recipeId = recipeData.recipe_id;
+        
+        // Then, add all the steps
+        const steps = document.querySelectorAll('.recipe-step');
+        for (let i = 0; i < steps.length; i++) {
+            const step = steps[i];
+            const ingredientName = step.querySelector('.ingredient-name').value;
+            const ingredientAmount = step.querySelector('.ingredient-amount').value;
+            const ingredientUnit = step.querySelector('.ingredient-unit').value;
+            const stepDescription = step.querySelector('.step-description').value;
+            
+            if (ingredientName || stepDescription) {
+                await fetch(`${API_BASE}/recipeSteps`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        step_num: i + 1,
+                        from_recipe: recipeId,
+                        ingredient_name: ingredientName || null,
+                        ingredient_amount: ingredientAmount || null,
+                        ingredient_unit: ingredientUnit || null,
+                        step_desc: stepDescription || null
+                    })
+                });
+            }
+        }
+        
+        hideAddRecipeModal();
+        loadRecipes(); // Reload recipes
     } catch (error) {
         console.error('Error adding recipe:', error);
         alert('Error adding recipe');
     }
 }
 
+// View recipe in modal
+async function viewRecipe(recipeId) {
+    try {
+        const response = await fetch(`${API_BASE}/recipeSteps/${recipeId}`);
+        const steps = await response.json();
+        
+        if (steps.length > 0) {
+            document.getElementById('recipeModalTitle').textContent = steps[0].recipe_name;
+            displayRecipeSteps(steps);
+            document.getElementById('viewRecipeModal').style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error loading recipe:', error);
+    }
+}
+
+// Display recipe steps in the view modal
+function displayRecipeSteps(steps) {
+    const container = document.getElementById('recipeStepsDisplay');
+    container.innerHTML = '';
+    
+    steps.forEach(step => {
+        const stepDiv = document.createElement('div');
+        stepDiv.className = 'recipe-step-display';
+        
+        let stepContent = `<h4>Step ${step.step_num}</h4>`;
+        
+        if (step.ingredient_name) {
+            stepContent += `<div class="ingredient-info">
+                <strong>Ingredient:</strong> ${step.ingredient_name}
+                ${step.ingredient_amount ? ` - ${step.ingredient_amount}` : ''}
+                ${step.ingredient_unit ? ` ${step.ingredient_unit}` : ''}
+            </div>`;
+        }
+        
+        if (step.step_desc) {
+            stepContent += `<p>${step.step_desc}</p>`;
+        }
+        
+        stepDiv.innerHTML = stepContent;
+        container.appendChild(stepDiv);
+    });
+}
+
+// Hide view recipe modal
+function hideViewRecipeModal() {
+    const modal = document.getElementById('viewRecipeModal');
+    modal.style.display = 'none';
+}
+
 // Close modals when clicking outside
 window.onclick = function(event) {
     const cookbookModal = document.getElementById('addCookbookModal');
     const recipeModal = document.getElementById('addRecipeModal');
+    const viewModal = document.getElementById('viewRecipeModal');
     
     if (event.target === cookbookModal) {
         hideAddCookbookModal();
     }
     if (event.target === recipeModal) {
         hideAddRecipeModal();
+    }
+    if (event.target === viewModal) {
+        hideViewRecipeModal();
     }
 }
