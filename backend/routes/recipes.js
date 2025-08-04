@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// Get all cookbooks
+// Get all Recipes
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT c.book_id, c.cookbook_name AS Book_Name, c.cookbook_desc AS Description, u.username AS Owner FROM Cookbooks c JOIN Users u ON u.user_id = c.owner_id');
+    const [rows] = await db.query('SELECT r. recipe_id, r.recipe_name, c.cookbook_name, u.username FROM Recipes r JOIN Cookbooks c ON c.book_id = r.book_id JOIN Users u ON u.user_id = r.contributor_id');
     res.json(rows);
   } catch (err) {
     console.error('Database error:', err);
@@ -13,18 +13,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Add a cookbook
+// Add a Recipe
 router.post('/', async (req, res) => {
-  const { owner_id, cookbook_name, cookbook_desc } = req.body;
+  const { book_id, contributor_id, recipe_name, image } = req.body;
   try {
     const [result] = await db.query(
-      'INSERT INTO Cookbooks (owner_id, cookbook_name, cookbook_desc) VALUES (?, ?, ?)',
-      [owner_id, cookbook_name, cookbook_desc]
+      'INSERT INTO Recipes (book_id, contributor_id, recipe_name, image) VALUES (?, ?, ?, ?)',
+      [book_id, contributor_id, recipe_name, image]
     );
     res.status(201).json({ user_id: result.insertId });
   } catch (err) {
     console.error('Insert error:', err);
-    res.status(500).send('Could not add cookbook');
+    res.status(500).send('Could not add recipe');
   }
 });
 
