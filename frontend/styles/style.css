@@ -160,6 +160,7 @@ footer {
 
 .cookbookContainer {
     margin: 50px;
+    min-height: 300px;
 }
 
 .cookbook-header {
@@ -330,6 +331,13 @@ footer {
     text-align: right;
     background: #f9f9f9;
     border-radius: 0 0 10px 10px;
+}
+
+#cookbookForm, #recipeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
 }
 
 .form-group {
@@ -597,7 +605,7 @@ section {
     .flex-container {
         margin-top: 20px;
         justify-content: center;
-    }
+        }
 
     #recipeList {
         grid-template-columns: 1fr;
