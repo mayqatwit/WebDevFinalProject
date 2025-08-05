@@ -198,6 +198,10 @@ input {
 	transform: translateX(-100%);
 }
 
+.mobile-switch {
+	display: none;
+}
+
 .overlay {
 	background: var(--header-bg-color);
 	background: var(--header-gradient);
@@ -319,5 +323,43 @@ footer {
     .mobile-switch:hover {
         background-color: var(--button-bg-color);
         color: white;
+    }
+	.form-container {
+        display: none;
+        opacity: 0;
+        transition: none;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+        transform: none !important; /* Override desktop transforms */
+        left: auto !important;      /* Reset positioning */
+    }
+
+    .container.right-panel-active .sign-up-container {
+        display: block;
+        opacity: 1;
+        z-index: 2;
+        transform: none !important; /* Ensure no transforms on mobile */
+    }
+
+    .container:not(.right-panel-active) .sign-in-container {
+        display: block;
+        opacity: 1;
+        z-index: 2;
+        transform: none !important; /* Ensure no transforms on mobile */
+    }
+
+    /* Make sure overlay is completely hidden on mobile */
+    .overlay-container {
+        display: none !important;
+    }
+
+    /* Reset any inherited positioning issues */
+    .sign-in-container,
+    .sign-up-container {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
     }
 }

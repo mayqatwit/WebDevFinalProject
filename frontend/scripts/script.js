@@ -567,7 +567,7 @@ async function shareCookbook() {
     }
 }
 
-// Remove contributor (you'll need to add this endpoint to your backend)
+// Remove contributor
 async function removeContributor(cookbookId, userId) {
     try {
         const response = await fetch(`${API_BASE}/cookbooks/removeShare/`, {
