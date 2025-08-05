@@ -19,9 +19,15 @@
     </nav>
     <aside id="sidebar">
         <ul id="navLinks">
-            <a class="sidebarItems" href="./home.html"><li>Home</li></a>
-            <a class="sidebarItems" href="./about.html"><li>About</li></a>
-            <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;"><li>Search</li></a>
+            <a class="sidebarItems" href="./home.html">
+                <li>Home</li>
+            </a>
+            <a class="sidebarItems" href="./about.html">
+                <li>About</li>
+            </a>
+            <a class="sidebarItems" id="searchToggle" href="#" onclick="toggleSearch(); return false;">
+                <li>Search</li>
+            </a>
         </ul>
         <ul id="logoutContainer">
             <a class="sidebarItems" href="#" onclick="logout()">
@@ -35,7 +41,7 @@
             <button onclick="location.href='home.html'" class="back-button">← Back to Cookbooks</button>
             <h1 id="cookbookTitle">Cookbook</h1>
         </div>
-        
+
         <ul id="recipeList">
             <li class="recipeItem" onclick="showAddRecipeModal()">
                 <section>
@@ -52,34 +58,40 @@
                 <h2>Add New Recipe</h2>
                 <span class="close" onclick="hideAddRecipeModal()">&times;</span>
             </div>
-            <form id="recipeForm" onsubmit="addRecipe(event); return false;">
-                <div class="form-group">
-                    <label for="recipeName">Recipe Name:</label>
-                    <input type="text" id="recipeName" name="recipeName" required maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Recipe Steps:</label>
-                    <div id="recipeSteps">
-                        <div class="recipe-step">
-                            <div class="step-header">
-                                <span class="step-number">1</span>
-                                <button type="button" class="remove-step" onclick="removeStep(this)" style="display: none;">×</button>
-                            </div>
-                            <div class="ingredient-section">
-                                <input type="text" placeholder="Ingredient name" class="ingredient-name">
-                                <input type="number" placeholder="Amount" class="ingredient-amount" step="0.01" min="0">
-                                <input type="text" placeholder="Unit" class="ingredient-unit" maxlength="6">
-                            </div>
-                            <textarea placeholder="Step description" class="step-description" rows="3"></textarea>
-                        </div>
+            <div class="modal-scroll-area">
+                <form id="recipeForm" onsubmit="addRecipe(event); return false;">
+                    <div class="form-group">
+                        <label for="recipeName">Recipe Name:</label>
+                        <input type="text" id="recipeName" name="recipeName" required maxlength="50">
                     </div>
-                    <button type="button" onclick="addStep()" class="add-step-btn">+ Add Step</button>
-                </div>
+                    <div class="form-group">
+                        <label>Recipe Steps:</label>
+                        <div id="recipeSteps">
+                            <div class="recipe-step">
+                                <div class="step-header">
+                                    <span class="step-number">1</span>
+                                    <button type="button" class="remove-step" onclick="removeStep(this)"
+                                        style="display: none;">×</button>
+                                </div>
+                                <div class="ingredient-section">
+                                    <input type="text" placeholder="Ingredient name" class="ingredient-name">
+                                    <input type="number" placeholder="Amount" class="ingredient-amount" step="0.01"
+                                        min="0">
+                                    <input type="text" placeholder="Unit" class="ingredient-unit" maxlength="6">
+                                </div>
+                                <textarea placeholder="Step description" class="step-description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addStep()" class="add-step-btn">+ Add Step</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
                 <div class="form-actions">
                     <button type="button" onclick="hideAddRecipeModal()">Cancel</button>
-                    <button type="submit">Add Recipe</button>
+                    <button type="submit" form="recipeForm">Add Recipe</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -89,12 +101,12 @@
                 <h2 id="recipeModalTitle">Recipe</h2>
                 <span class="close" onclick="hideViewRecipeModal()">&times;</span>
             </div>
-            <div class="recipe-content">
-                <div class="recipe-info">
-                    <p><strong>By:</strong> <span id="recipeContributor"></span></p>
-                </div>
-                <div class="recipe-steps-display" id="recipeStepsDisplay">
-                    <!-- Recipe steps will be loaded here -->
+            <div class="modal-scroll-area">
+                <div class="recipe-content">
+                    <div class="recipe-info">
+                        <p><strong>By:</strong> <span id="recipeContributor"></span></p>
+                    </div>
+                    <div class="recipe-steps-display" id="recipeStepsDisplay"></div>
                 </div>
             </div>
         </div>
@@ -104,5 +116,10 @@
         <p>© 2025 KitchenSync</p>
     </footer>
 
+    <style>
+
+    </style>
+
 </body>
+
 </html>
