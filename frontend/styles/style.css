@@ -79,11 +79,13 @@ body {
     text-align: center;
     padding: 10px;
     border-radius: 10px;
+    position: relative;
 }
 
 .cookbook:hover {
     background-color: var(--cookbook-hover-color);
     cursor: pointer;
+    opacity: 1;
 }
 
 .cookbook h1 {
@@ -485,6 +487,86 @@ section {
     border-radius: 3px;
     margin-bottom: 8px;
     font-size: 0.9rem;
+}
+
+.edit-cookbook-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: var(--button-secondary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.edit-cookbook-btn {
+    opacity: 1;
+}
+
+.share-content {
+    padding: 20px;
+}
+
+.contributors-list {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.contributor-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.contributor-item:last-child {
+    border-bottom: none;
+}
+
+.remove-contributor {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.share-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.share-input-group select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.share-btn {
+    background-color: var(--button-primary);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.share-btn:hover {
+    background-color: var(--button-primary-hover);
 }
 
 @keyframes fadeIn {
