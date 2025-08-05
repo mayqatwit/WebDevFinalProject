@@ -108,4 +108,18 @@ router.post('/shareWith/', async (req, res) => {
   }
 });
 
+//Remove a contributor
+router.delete('/removeShare/', async (req, res) => {
+  const { book_id, user_id } = req.body;
+  try {
+    const [result] = await db.query(
+      'DELETE FROM SharedCookbooks WHERE book_id = ? AND user_id = ?',
+      [book_id, user_id]
+    );
+    res.status(200).json({ message: 'Contributor removed successfully' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).send('Could not remove contributor');
+  }
+});
 module.exports = router;

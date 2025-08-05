@@ -121,7 +121,7 @@ function displayCookbooks(cookbooks, type) {
     
     // Add cookbooks
     cookbooks.forEach(cookbook => {
-        const cookbookElement = createCookbookElement(cookbook);
+        const cookbookElement = createCookbookElement(cookbook, type === 'owned');
         if (type === 'owned') {
             container.insertBefore(cookbookElement, container.lastChild);
         } else {
@@ -131,19 +131,23 @@ function displayCookbooks(cookbooks, type) {
 }
 
 // Create cookbook element
-function createCookbookElement(cookbook) {
+function createCookbookElement(cookbook, isOwned = false) {
     const section = document.createElement('section');
     section.className = 'cookbook';
+    
+    const editButton = isOwned ? `<button class="edit-cookbook-btn" onclick="event.stopPropagation(); showShareModal(${cookbook.book_id}, '${cookbook.Book_Name || cookbook.cookbook_name}');">⚙️</button>` : '';
+    
+    section.innerHTML = `
+        <h3>${cookbook.Book_Name || cookbook.cookbook_name}</h3>
+        <p>${cookbook.Description || cookbook.cookbook_desc || 'No description'}</p>
+        ${editButton}
+    `;
+    
     section.onclick = () => {
         localStorage.setItem('currentCookbookId', cookbook.book_id);
         localStorage.setItem('currentCookbookName', cookbook.Book_Name || cookbook.cookbook_name);
         location.href = 'cookbook.html';
     };
-    
-    section.innerHTML = `
-        <h3>${cookbook.Book_Name || cookbook.cookbook_name}</h3>
-        <p>${cookbook.Description || cookbook.cookbook_desc || 'No description'}</p>
-    `;
     
     return section;
 }
@@ -453,6 +457,7 @@ window.onclick = function(event) {
     const cookbookModal = document.getElementById('addCookbookModal');
     const recipeModal = document.getElementById('addRecipeModal');
     const viewModal = document.getElementById('viewRecipeModal');
+    const shareModal = document.getElementById('shareCookbookModal');
     
     if (event.target === cookbookModal) {
         hideAddCookbookModal();
@@ -462,5 +467,127 @@ window.onclick = function(event) {
     }
     if (event.target === viewModal) {
         hideViewRecipeModal();
+    }
+    if (event.target === shareModal) {
+        hideShareModal();
+    }
+}
+
+// Show share cookbook modal
+function showShareModal(cookbookId, cookbookName) {
+    document.getElementById('shareCookbookId').value = cookbookId;
+    document.getElementById('shareCookbookTitle').textContent = cookbookName;
+    loadContributors(cookbookId);
+    loadAllUsers();
+    document.getElementById('shareCookbookModal').style.display = 'block';
+}
+
+// Hide share cookbook modal
+function hideShareModal() {
+    document.getElementById('shareCookbookModal').style.display = 'none';
+    document.getElementById('shareUserSelect').value = '';
+}
+
+// Load current contributors
+async function loadContributors(cookbookId) {
+    try {
+        const response = await fetch(`${API_BASE}/cookbooks/contributors/${cookbookId}`);
+        const contributors = await response.json();
+        
+        const container = document.getElementById('contributorsList');
+        container.innerHTML = '';
+        
+        contributors.forEach(contributor => {
+            const div = document.createElement('div');
+            div.className = 'contributor-item';
+            div.innerHTML = `
+                <span>${contributor.username}</span>
+                <button onclick="removeContributor(${cookbookId}, ${contributor.user_id})" class="remove-contributor">Remove</button>
+            `;
+            container.appendChild(div);
+        });
+    } catch (error) {
+        console.error('Error loading contributors:', error);
+    }
+}
+
+// Load all users for sharing
+async function loadAllUsers() {
+    try {
+        const response = await fetch(`${API_BASE}/users`);
+        const users = await response.json();
+        
+        const select = document.getElementById('shareUserSelect');
+        select.innerHTML = '<option value="">Select a user...</option>';
+        
+        users.forEach(user => {
+            if (user.user_id !== currentUser.user_id) {
+                const option = document.createElement('option');
+                option.value = user.user_id;
+                option.textContent = user.username;
+                select.appendChild(option);
+            }
+        });
+    } catch (error) {
+        console.error('Error loading users:', error);
+    }
+}
+
+// Share cookbook with user
+async function shareCookbook() {
+    const cookbookId = document.getElementById('shareCookbookId').value;
+    const userId = document.getElementById('shareUserSelect').value;
+    
+    if (!userId) {
+        alert('Please select a user to share with');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_BASE}/cookbooks/shareWith/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                book_id: cookbookId,
+                user_id: userId
+            })
+        });
+        
+        if (response.ok) {
+            loadContributors(cookbookId);
+            document.getElementById('shareUserSelect').value = '';
+        } else {
+            alert('Error sharing cookbook');
+        }
+    } catch (error) {
+        console.error('Error sharing cookbook:', error);
+        alert('Error sharing cookbook');
+    }
+}
+
+// Remove contributor (you'll need to add this endpoint to your backend)
+async function removeContributor(cookbookId, userId) {
+    try {
+        const response = await fetch(`${API_BASE}/cookbooks/removeShare/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                book_id: cookbookId,
+                user_id: userId
+            })
+        });
+        
+        if (response.ok) {
+            loadContributors(cookbookId);
+        } else {
+            alert('Error removing contributor');
+        }
+    } catch (error) {
+        console.error('Error removing contributor:', error);
+        alert('Error removing contributor');
     }
 }
