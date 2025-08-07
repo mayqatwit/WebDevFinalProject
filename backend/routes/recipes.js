@@ -97,4 +97,28 @@ router.post('/', async (req, res) => {
   }
 });
 
+//edit a recipe
+router.put('/:recipeId', async (req, res) => {
+  const recipeId = req.params.recipeId;
+  const { book_id, recipe_name } = req.body;
+
+  try {
+    const [result] = await db.query(
+      `UPDATE Recipes 
+       SET book_id = ?, recipe_name = ? 
+       WHERE recipe_id = ?`,
+      [book_id, recipe_name, recipeId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
+    res.status(200).json({ message: 'Recipe updated successfully' });
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).send('Could not update recipe');
+  }
+});
+
 module.exports = router;

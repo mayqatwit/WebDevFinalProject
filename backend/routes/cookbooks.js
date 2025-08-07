@@ -93,6 +93,31 @@ router.post('/', async (req, res) => {
   }
 });
 
+//edit a cookbook
+router.put('/:bookId', async (req, res) => {
+  const bookId = req.params.bookId;
+  const { cookbook_name, cookbook_desc } = req.body;
+
+  try {
+    const [result] = await db.query(
+      `UPDATE Cookbooks 
+       SET cookbook_name = ?, cookbook_desc = ? 
+       WHERE book_id = ?`,
+      [cookbook_name, cookbook_desc, bookId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Cookbook not found' });
+    }
+
+    res.status(200).json({ message: 'Cookbook updated successfully' });
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).send('Could not update cookbook');
+  }
+});
+
+
 //Add a contributor
 router.post('/shareWith/', async (req, res) => {
   const { book_id, user_id } = req.body;
