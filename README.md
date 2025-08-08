@@ -28,14 +28,6 @@ Make sure your MySQL service is running:
 ```bash
 net start mysql
 ```
-
-**macOS:**
-```bash
-brew services start mysql
-# or
-sudo /usr/local/mysql/support-files/mysql.server start
-```
-
 **Linux:**
 ```bash
 sudo systemctl start mysql
