@@ -60,28 +60,6 @@ router.get('/ingredients/:recipeId', async (req, res) => {
   }
 });
 
-//get image file from database
-router.get('/:id/image', async (req, res) => {
-  const recipeId = req.params.id;
-
-  try {
-    const [rows] = await db.query(
-      'SELECT image FROM Recipes WHERE recipe_id = ?',
-      [recipeId]
-    );
-
-    if (rows.length === 0 || !rows[0].image) {
-      return res.status(404).send('Image not found');
-    }
-
-    res.set('Content-Type', 'image/jpeg'); // or 'image/png' depending on what was uploaded
-    res.send(rows[0].image);
-  } catch (err) {
-    console.error('Image fetch error:', err);
-    res.status(500).send('Failed to fetch image');
-  }
-});
-
 // Add a Recipe
 router.post('/', async (req, res) => {
   const { book_id, contributor_id, recipe_name, image } = req.body;
@@ -97,12 +75,27 @@ router.post('/', async (req, res) => {
   }
 });
 
-//edit a recipe
+
 router.put('/:recipeId', async (req, res) => {
   const recipeId = req.params.recipeId;
   const { book_id, recipe_name } = req.body;
 
+  console.log('PUT /recipes/:recipeId called');
+  console.log('Recipe ID:', recipeId);
+  console.log('Request body:', req.body);
+
+  // Validate input
+  if (!recipe_name) {
+    console.log('Validation error: recipe_name is required');
+    return res.status(400).json({ 
+      error: 'Recipe name is required',
+      received: { book_id, recipe_name }
+    });
+  }
+
   try {
+    console.log('Executing query with params:', [book_id, recipe_name, recipeId]);
+    
     const [result] = await db.query(
       `UPDATE Recipes 
        SET book_id = ?, recipe_name = ? 
@@ -110,15 +103,27 @@ router.put('/:recipeId', async (req, res) => {
       [book_id, recipe_name, recipeId]
     );
 
+    console.log('Query result:', result);
+
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Recipe not found' });
+      console.log('No rows affected - recipe not found');
+      return res.status(404).json({ 
+        error: 'Recipe not found',
+        recipeId: recipeId
+      });
     }
 
-    res.status(200).json({ message: 'Recipe updated successfully' });
+    console.log('Recipe updated successfully');
+    res.status(200).json({ 
+      message: 'Recipe updated successfully',
+      affectedRows: result.affectedRows
+    });
   } catch (err) {
     console.error('Update error:', err);
-    res.status(500).send('Could not update recipe');
+    res.status(500).json({ 
+      error: 'Could not update recipe',
+      details: err.message
+    });
   }
 });
-
 module.exports = router;

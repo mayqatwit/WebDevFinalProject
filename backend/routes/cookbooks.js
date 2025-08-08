@@ -93,31 +93,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-//edit a cookbook
-router.put('/:bookId', async (req, res) => {
-  const bookId = req.params.bookId;
-  const { cookbook_name, cookbook_desc } = req.body;
-
-  try {
-    const [result] = await db.query(
-      `UPDATE Cookbooks 
-       SET cookbook_name = ?, cookbook_desc = ? 
-       WHERE book_id = ?`,
-      [cookbook_name, cookbook_desc, bookId]
-    );
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Cookbook not found' });
-    }
-
-    res.status(200).json({ message: 'Cookbook updated successfully' });
-  } catch (err) {
-    console.error('Update error:', err);
-    res.status(500).send('Could not update cookbook');
-  }
-});
-
-
 //Add a contributor
 router.post('/shareWith/', async (req, res) => {
   const { book_id, user_id } = req.body;
@@ -145,6 +120,58 @@ router.delete('/removeShare/', async (req, res) => {
   } catch (err) {
     console.error('Delete error:', err);
     res.status(500).send('Could not remove contributor');
+  }
+});
+
+//Edit a cookbook
+router.put('/:bookId', async (req, res) => {
+  const bookId = req.params.bookId;
+  const { cookbook_name, cookbook_desc } = req.body;
+
+  console.log('PUT /cookbooks/:bookId called');
+  console.log('Book ID:', bookId);
+  console.log('Request body:', req.body);
+
+  // Validate input
+  if (!cookbook_name) {
+    console.log('Validation error: cookbook_name is required');
+    return res.status(400).json({ 
+      error: 'Cookbook name is required',
+      received: { cookbook_name, cookbook_desc }
+    });
+  }
+
+  try {
+    console.log('Executing query with params:', [cookbook_name, cookbook_desc, bookId]);
+    
+    const [result] = await db.query(
+      `UPDATE Cookbooks 
+       SET cookbook_name = ?, cookbook_desc = ? 
+       WHERE book_id = ?`,
+      [cookbook_name, cookbook_desc, bookId]
+    );
+
+    console.log('Query result:', result);
+
+    if (result.affectedRows === 0) {
+      console.log('No rows affected - cookbook not found');
+      return res.status(404).json({ 
+        error: 'Cookbook not found',
+        bookId: bookId
+      });
+    }
+
+    console.log('Cookbook updated successfully');
+    res.status(200).json({ 
+      message: 'Cookbook updated successfully',
+      affectedRows: result.affectedRows
+    });
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).json({ 
+      error: 'Could not update cookbook',
+      details: err.message
+    });
   }
 });
 module.exports = router;

@@ -50,14 +50,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-//edit a recipe step
+// Edit a recipe step
 router.put('/:stepId', async (req, res) => {
   const stepId = req.params.stepId;
   const { ingredient_name, ingredient_amount, ingredient_unit, step_desc } = req.body;
 
   try {
     const [result] = await db.query(
-      `UPDATE RecipesSteps 
+      `UPDATE RecipeSteps 
        SET ingredient_name = ?, ingredient_amount = ?, ingredient_unit = ?, step_desc = ? 
        WHERE step_id = ?`,
       [ingredient_name, ingredient_amount, ingredient_unit, step_desc, stepId]
@@ -71,6 +71,47 @@ router.put('/:stepId', async (req, res) => {
   } catch (err) {
     console.error('Update error:', err);
     res.status(500).send('Could not update step');
+  }
+});
+
+// Delete steps for a recipe (useful for editing recipes)
+router.delete('/recipe/:recipeId', async (req, res) => {
+  const recipeId = req.params.recipeId;
+
+  try {
+    const [result] = await db.query(
+      'DELETE FROM RecipeSteps WHERE from_recipe = ?',
+      [recipeId]
+    );
+
+    res.status(200).json({ 
+      message: 'Steps deleted successfully',
+      deletedCount: result.affectedRows
+    });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).send('Could not delete steps');
+  }
+});
+
+// Delete a specific step
+router.delete('/:stepId', async (req, res) => {
+  const stepId = req.params.stepId;
+
+  try {
+    const [result] = await db.query(
+      'DELETE FROM RecipeSteps WHERE step_id = ?',
+      [stepId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Step not found' });
+    }
+
+    res.status(200).json({ message: 'Step deleted successfully' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).send('Could not delete step');
   }
 });
 

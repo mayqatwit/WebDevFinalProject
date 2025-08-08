@@ -81,24 +81,44 @@
     <div id="shareCookbookModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Share "<span id="shareCookbookTitle"></span>"</h2>
+                <h2>Manage "<span id="shareCookbookTitle"></span>"</h2>
                 <span class="close" onclick="hideShareModal()">&times;</span>
             </div>
-            <div class="share-content">
-                <input type="hidden" id="shareCookbookId">
+            <div class="modal-scroll-area">
+                <div class="share-content">
+                    <input type="hidden" id="shareCookbookId">
 
-                <div class="form-group">
-                    <label>Current Contributors:</label>
-                    <div id="contributorsList" class="contributors-list"></div>
-                </div>
+                    <div class="form-group">
+                        <h3>Edit Cookbook</h3>
+                        <form id="editCookbookForm" onsubmit="updateCookbook(event); return false;">
+                            <div class="form-group">
+                                <label for="editCookbookName">Cookbook Name:</label>
+                                <input type="text" id="editCookbookName" name="editCookbookName" required maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="editCookbookDescription">Description:</label>
+                                <textarea id="editCookbookDescription" name="editCookbookDescription" maxlength="150" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="update-cookbook-btn">Update Cookbook</button>
+                        </form>
+                    </div>
 
-                <div class="form-group">
-                    <label for="shareUserSelect">Share with:</label>
-                    <div class="share-input-group">
-                        <select id="shareUserSelect">
-                            <option value="">Select a user...</option>
-                        </select>
-                        <button type="button" onclick="shareCookbook()" class="share-btn">Share</button>
+                    <hr style="margin: 20px 0; border: 1px solid #eee;">
+
+                    <div class="form-group">
+                        <h3>Share Cookbook</h3>
+                        <label>Current Contributors:</label>
+                        <div id="contributorsList" class="contributors-list"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shareUserSelect">Share with:</label>
+                        <div class="share-input-group">
+                            <select id="shareUserSelect">
+                                <option value="">Select a user...</option>
+                            </select>
+                            <button type="button" onclick="shareCookbook()" class="share-btn">Share</button>
+                        </div>
                     </div>
                 </div>
             </div>
